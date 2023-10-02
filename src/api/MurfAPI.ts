@@ -1,20 +1,33 @@
-import axios from "axios";
+import axios from 'axios';
 
 export type GenerateSpeechInput = {
   voiceId: string;
   text: string;
   format: string;
+  channelType: string;
+  sampleRate: number;
 };
 
 export const api = axios.create({
-  baseURL: "https://api.dev.murf.ai",
+  baseURL: 'https://api.murf.ai',
 });
 
-export async function generateSpeechWithKey(data: GenerateSpeechInput) {
-  return api.post("/v1/speech/generate-with-key", data, {
+export async function getMurfToken() {
+  return api.get('/v1/auth/token', {
     headers: {
-      "api-key": import.meta.env.VITE_MURF_API_KEY_DEV,
-      "Content-Type": "application/json",
+      'api-key': import.meta.env.VITE_MURF_API_KEY,
+    },
+  });
+}
+
+export async function generateSpeechWithKey(
+  token: string,
+  data: GenerateSpeechInput
+) {
+  return api.post('/v1/speech/generate', data, {
+    headers: {
+      token,
+      'Content-Type': 'application/json',
     },
   });
 }

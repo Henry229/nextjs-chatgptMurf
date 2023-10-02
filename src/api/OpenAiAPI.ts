@@ -1,11 +1,11 @@
-import { Configuration, OpenAIApi } from "openai";
+import { Configuration, OpenAIApi } from 'openai';
 
 type GenerateGPTResponseBody = {
   prompt: string;
 };
 
 export type ChatGPTMessage = {
-  role: "system" | "user" | "assistant";
+  role: 'system' | 'user' | 'assistant';
   content: string;
 };
 
@@ -21,7 +21,7 @@ const openai = new OpenAIApi(configuration);
 
 export async function generateGPTResponse({ prompt }: GenerateGPTResponseBody) {
   const completion = await openai.createCompletion({
-    model: "text-davinci-003",
+    model: 'text-davinci-003',
     prompt: prompt,
     temperature: 1,
     max_tokens: 1000,
@@ -34,10 +34,10 @@ export async function generateChatGPTResponse({
   messages,
 }: GenerateChatGPTResponseBody) {
   const completion = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
+    model: 'gpt-4',
     messages: messages,
-    temperature: 1,
-    max_tokens: 1000,
+    temperature: 0.7,
+    max_tokens: 500,
   });
 
   return completion;
